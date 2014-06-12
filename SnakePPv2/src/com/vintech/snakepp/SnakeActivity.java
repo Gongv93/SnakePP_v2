@@ -1,6 +1,7 @@
 package com.vintech.snakepp;
 
 import com.vintech.constants.Constants;
+import com.vintech.managers.ResourceManager;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.LimitedFPSEngine;
@@ -14,6 +15,8 @@ import org.andengine.ui.activity.BaseGameActivity;
 
 public class SnakeActivity extends BaseGameActivity implements Constants {
 
+	private ResourceManager resourceManager;
+	
 	private Camera camera;
 	
 	@Override
@@ -23,9 +26,11 @@ public class SnakeActivity extends BaseGameActivity implements Constants {
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
+		// Set up screen
 		camera = new Camera( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
 		EngineOptions engineOptions = new EngineOptions( true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy( SCREEN_WIDTH, SCREEN_HEIGHT ), this.camera );
 		
+		// Enable audio
 		engineOptions.getAudioOptions().setNeedsMusic( true ).setNeedsSound( true );
 		engineOptions.setWakeLockOptions( WakeLockOptions.SCREEN_ON );
 		
@@ -36,8 +41,11 @@ public class SnakeActivity extends BaseGameActivity implements Constants {
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback)
 			throws Exception {
-		// TODO Auto-generated method stub
 		
+		// Load needed resources
+		ResourceManager.prepareManager( mEngine, this, camera, getVertexBufferObjectManager() );
+		resourceManager = ResourceManager.getInstance();
+		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
 	@Override

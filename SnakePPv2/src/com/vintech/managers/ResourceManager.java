@@ -2,7 +2,16 @@ package com.vintech.managers;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.opengl.texture.TextureOptions;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.debug.Debug;
 
 import com.vintech.snakepp.SnakeActivity;
 
@@ -15,6 +24,18 @@ public class ResourceManager {
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
 	
+	// Resources
+	
+	// Splash Screen
+	public ITextureRegion splash_region;
+	private BitmapTextureAtlas splashTextureAtlas;
+	
+	// Menu Screen
+	public ITextureRegion menu_background_region;
+	public ITextureRegion start_region;
+	private BuildableBitmapTextureAtlas menuTextureAtlas;
+	
+	
 	public void loadMenuResources() {
 		/**
 		 * Menu Resources:
@@ -26,8 +47,12 @@ public class ResourceManager {
 		 *   - Buttons
 		 *   - Background
 		 */
+		
+		loadMenuGraphics();
+        loadMenuAudio();
 	}
 	
+
 	public void loadGameResources() {
 		/**
 		 *  Game Resources
@@ -40,10 +65,64 @@ public class ResourceManager {
 		 *   - Snake
 		 *   - Background
 		 */
+		
+		loadGameGraphics();
+        loadGameFonts();
+        loadGameAudio();
 	}
 	
+	public void loadSplashScreen() {
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		splashTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		splash_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "splash_screen.png", 0, 0);
+		splashTextureAtlas.load();
+    }
+    
+    public void unloadSplashScreen() {
+    	splashTextureAtlas.unload();
+    	splash_region = null;
+    }
 	
+	// Menu Resources
+	private void loadMenuAudio() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void loadMenuGraphics() {
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
+		menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+		menu_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu_screen.png");
+		start_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "start_button.png");
+		       
+		try 
+		{
+		    this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+		    this.menuTextureAtlas.load();
+		} 
+		catch (final TextureAtlasBuilderException e)
+		{
+		        Debug.e(e);
+		}
+		
+	}
 	
+	// Game Resources
+	private void loadGameAudio() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void loadGameFonts() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void loadGameGraphics() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public static void prepareManager( Engine engine, SnakeActivity activity, Camera camera, VertexBufferObjectManager vbom ) {
 		getInstance().engine = engine;
 		getInstance().activity = activity;

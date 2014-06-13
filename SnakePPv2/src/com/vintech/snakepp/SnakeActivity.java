@@ -1,11 +1,16 @@
 package com.vintech.snakepp;
 
+import android.view.KeyEvent;
+
 import com.vintech.constants.Constants;
 import com.vintech.managers.ResourceManager;
+import com.vintech.managers.SceneManager;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.LimitedFPSEngine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.WakeLockOptions;
@@ -51,15 +56,40 @@ public class SnakeActivity extends BaseGameActivity implements Constants {
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback)
 			throws Exception {
-		// TODO Auto-generated method stub
+		SceneManager.getInstance().createSplashScene(pOnCreateSceneCallback);
 		
 	}
 
 	@Override
 	public void onPopulateScene(Scene pScene,
 			OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
-		// TODO Auto-generated method stub
+		mEngine.registerUpdateHandler(new TimerHandler(2f, new ITimerCallback() 
+	    {
+	            public void onTimePassed(final TimerHandler pTimerHandler) 
+	            {
+	            	mEngine.unregisterUpdateHandler(pTimerHandler);
+	                SceneManager.getInstance().createMenuScene();
+	            }
+	    }));
+	    pOnPopulateSceneCallback.onPopulateSceneFinished();
 		
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+	        System.exit(0);	
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{  
+	    if (keyCode == KeyEvent.KEYCODE_BACK)
+	    {
+	        SceneManager.getInstance().getCurrentScene().onBackKeyPressed();
+	    }
+	    return false; 
 	}
 
 }

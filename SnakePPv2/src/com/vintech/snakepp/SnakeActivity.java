@@ -19,8 +19,6 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 
 public class SnakeActivity extends BaseGameActivity implements Constants {
-
-	private ResourceManager resourceManager;
 	
 	private Camera camera;
 	
@@ -49,7 +47,6 @@ public class SnakeActivity extends BaseGameActivity implements Constants {
 		
 		// Load needed resources
 		ResourceManager.prepareManager( mEngine, this, camera, getVertexBufferObjectManager() );
-		resourceManager = ResourceManager.getInstance();
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 

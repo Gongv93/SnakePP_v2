@@ -9,6 +9,7 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.util.GLState;
 
 import com.vintech.base.BaseScene;
+import com.vintech.managers.SceneManager;
 import com.vintech.managers.SceneManager.SceneType;
 
 public class MainMenuScene extends BaseScene implements MenuScene.IOnMenuItemClickListener {
@@ -74,6 +75,8 @@ public class MainMenuScene extends BaseScene implements MenuScene.IOnMenuItemCli
 			float pMenuItemLocalX, float pMenuItemLocalY) {
 		switch( pMenuItem.getID() ) {
 			case MENU_START:
+				// Load game
+				SceneManager.getInstance().loadGameScene( engine );
 				return true;
 			default:
 				return false;

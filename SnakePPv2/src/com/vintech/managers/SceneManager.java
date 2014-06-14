@@ -1,9 +1,13 @@
 package com.vintech.managers;
 
 import org.andengine.engine.Engine;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
 import com.vintech.base.BaseScene;
+import com.vintech.scenes.GameScene;
+import com.vintech.scenes.LoadingScene;
 import com.vintech.scenes.MainMenuScene;
 import com.vintech.scenes.SplashScene;
 
@@ -52,10 +56,23 @@ public class SceneManager {
     {
         ResourceManager.getInstance().loadMenuResources();
         menuScene = new MainMenuScene();
-        setScene(menuScene);
+        loadingScene = new LoadingScene();
+        SceneManager.getInstance().setScene(menuScene);
         disposeSplashScene();
     }
 
+    public void loadGameScene( final Engine mEngine ) {
+    	setScene( loadingScene );
+        ResourceManager.getInstance().unloadMenuTextures();
+        mEngine.registerUpdateHandler( new TimerHandler(0.1f, new ITimerCallback() {
+            public void onTimePassed( final TimerHandler pTimerHandler) {
+                mEngine.unregisterUpdateHandler( pTimerHandler );
+                ResourceManager.getInstance().loadGameResources();
+                gameScene = new GameScene();
+                setScene( gameScene );
+            }
+        }));
+    }
     
     public void setScene(BaseScene scene) {
         engine.setScene(scene);

@@ -2,6 +2,9 @@ package com.vintech.managers;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -13,18 +16,28 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
+import android.graphics.Color;
+import android.util.Log;
+
 import com.vintech.snakepp.SnakeActivity;
 
 public class ResourceManager {
 	
+	// ------------------------------
+	// Variables
+	// ------------------------------
+
 	private static final ResourceManager INSTANCE = new ResourceManager();
 	
 	public Engine engine;
 	public SnakeActivity activity;
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
+	public Font font;
 	
+	// ------------------------------
 	// Resources
+	// ------------------------------
 	
 	// Splash Screen
 	public ITextureRegion splash_region;
@@ -35,6 +48,9 @@ public class ResourceManager {
 	public ITextureRegion start_region;
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
 	
+	// ------------------------------
+	// Methods
+	// ------------------------------	
 	
 	public void loadMenuResources() {
 		/**
@@ -50,6 +66,7 @@ public class ResourceManager {
 		
 		loadMenuGraphics();
         loadMenuAudio();
+        loadMenuFonts();
 	}
 	
 
@@ -107,6 +124,22 @@ public class ResourceManager {
 		
 	}
 	
+	private void loadMenuFonts() {
+		FontFactory.setAssetBasePath("font/");
+		final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "LCD.ttf", 50, true, Color.WHITE, 2, Color.BLACK);
+		font.load();
+	}
+	
+	public void loadMenuTextures() {
+	    menuTextureAtlas.load();
+	}
+	
+	public void unloadMenuTextures() {
+	    menuTextureAtlas.unload();
+	}
+	
 	// Game Resources
 	private void loadGameAudio() {
 		// TODO Auto-generated method stub
@@ -129,6 +162,10 @@ public class ResourceManager {
 		getInstance().camera = camera;
 		getInstance().vbom = vbom;
 	}
+	
+	// ------------------------------
+	// Getters and Setters
+	// ------------------------------
 	
 	public static ResourceManager getInstance() {
 		return INSTANCE; 

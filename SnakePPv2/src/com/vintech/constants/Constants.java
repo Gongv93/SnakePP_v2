@@ -7,7 +7,9 @@ public interface Constants {
 	static final int SCREEN_WIDTH = 800;
 	
 	// Cell sizes
-	
 	static final int CELL_WIDTH       = 32;
 	static final int CELL_HEIGHT      = CELL_WIDTH;
+
+	static final int CELLS_HORIZONTAL = 25;
+	static final int CELLS_VERTICAL   = 15;
 }

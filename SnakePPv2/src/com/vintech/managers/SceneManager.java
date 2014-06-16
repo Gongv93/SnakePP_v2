@@ -18,6 +18,10 @@ import com.vintech.scenes.SplashScene;
 
 
 public class SceneManager {
+	
+	// ------------------------------
+	// Variables
+	// ------------------------------
     
 	private BaseScene splashScene;
     private BaseScene menuScene;
@@ -38,6 +42,10 @@ public class SceneManager {
         SCENE_GAME,
         SCENE_LOADING,
     }
+    
+    // ------------------------------
+ 	// Methods
+ 	// ------------------------------
     
     public void createSplashScene(OnCreateSceneCallback pOnCreateSceneCallback) {
         ResourceManager.getInstance().loadSplashScreen();
@@ -73,6 +81,23 @@ public class SceneManager {
             }
         }));
     }
+    
+    public void loadMenuScene( final Engine mEngine ) {
+    	setScene( loadingScene );
+    	gameScene.disposeScene();
+    	ResourceManager.getInstance().unloadGameTextures();
+    	mEngine.registerUpdateHandler( new TimerHandler( 0.1f, new ITimerCallback() {
+    		public void onTimePassed( final TimerHandler pTimerHandler ) {
+    			mEngine.unregisterUpdateHandler( pTimerHandler );
+    			ResourceManager.getInstance().loadMenuTextures();
+    			setScene( menuScene );
+    		}
+    	}));
+    }
+    
+    // ------------------------------
+ 	// Getters and Setters
+ 	// ------------------------------
     
     public void setScene(BaseScene scene) {
         engine.setScene(scene);

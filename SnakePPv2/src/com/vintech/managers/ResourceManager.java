@@ -48,6 +48,13 @@ public class ResourceManager {
 	public ITextureRegion start_region;
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
 	
+	// game Screen
+	public BuildableBitmapTextureAtlas gameTextureAtlas;
+	public ITextureRegion head_region;
+	public ITextureRegion tail_region;
+	public ITextureRegion food_region;
+	public ITextureRegion wall_region;
+	
 	// ------------------------------
 	// Methods
 	// ------------------------------	
@@ -100,7 +107,7 @@ public class ResourceManager {
     	splash_region = null;
     }
 	
-	// Menu Resources
+	// Menu Resources ************************
 	private void loadMenuAudio() {
 		// TODO Auto-generated method stub
 		
@@ -114,8 +121,8 @@ public class ResourceManager {
 		       
 		try 
 		{
-		    this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-		    this.menuTextureAtlas.load();
+		    menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+		    menuTextureAtlas.load();
 		} 
 		catch (final TextureAtlasBuilderException e)
 		{
@@ -140,7 +147,7 @@ public class ResourceManager {
 	    menuTextureAtlas.unload();
 	}
 	
-	// Game Resources
+	// Game Resources ************************
 	private void loadGameAudio() {
 		// TODO Auto-generated method stub
 		
@@ -152,7 +159,22 @@ public class ResourceManager {
 	}
 
 	private void loadGameGraphics() {
-		// TODO Auto-generated method stub
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath( "gfx/game/" );
+		gameTextureAtlas = new BuildableBitmapTextureAtlas( activity.getTextureManager(), 512, 512, TextureOptions.BILINEAR );
+		head_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset( gameTextureAtlas, activity, "SnakeHead.png" );
+		tail_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset( gameTextureAtlas, activity, "SnakeTail.png" );
+		food_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset( gameTextureAtlas, activity, "Food.png" );
+		wall_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset( gameTextureAtlas, activity, "wall.png" );
+		
+		try {
+			gameTextureAtlas.build( new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>( 0, 1, 0 ) );
+			gameTextureAtlas.load();
+		} catch ( final TextureAtlasBuilderException e ) {
+			Debug.e(e);
+		}
+	}
+	
+	public void unloadGameTextures() {
 		
 	}
 

@@ -7,7 +7,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.vintech.managers.Direction;
-import com.vintech.managers.SuicideException;
+import com.vintech.exception.SuicideException;
 
 public class Snake extends Entity {
 	private SnakeHead snakehead;

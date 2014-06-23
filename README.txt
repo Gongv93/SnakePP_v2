@@ -1,6 +1,8 @@
 Objective:
 Recreate the classic game Snake but with a twist making it more addictive and more replay value
 
+I rebuilt this version from the ground up with better organization and more dyamic compared to the older version. 
+
 General Overview:
 This game will be like the classic Snake game however, for however long the player does not eat the tail will become longer. When the snake eats a part of its tail falls off. after the player reaches a certain score a new level gets unlocked where they will need to control the snake to ( opening of a gate ).
 
